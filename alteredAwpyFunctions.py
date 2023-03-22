@@ -120,6 +120,7 @@ def plot_game_deaths_overlay(
     return True
 
 def plot_game_deaths_overlay_last_frame(
+    fileName: str,
     rounds: list[GameRound],
     map_name: str = "de_ancient",
     team: str = None,
@@ -165,4 +166,6 @@ def plot_game_deaths_overlay_last_frame(
         map_type=map_type,
         dark=dark,
     )
+    if fileName:
+        fig.savefig(fileName, dpi=300, bbox_inches="tight")
     return fig
