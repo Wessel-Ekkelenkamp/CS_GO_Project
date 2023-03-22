@@ -127,11 +127,6 @@ def plot_game_deaths_overlay_last_frame(
     dark: bool = False,
     fps: int = 10,
 ) -> Literal[True]:
-    if os.path.isdir("csgo_tmp"):
-        shutil.rmtree("csgo_tmp/")
-    os.mkdir("csgo_tmp")
-    image_files = []
-
     framesLeft = True
     frameIndex = 0
     positions = []
@@ -169,12 +164,4 @@ def plot_game_deaths_overlay_last_frame(
         map_type=map_type,
         dark=dark,
     )
-    image_files.append(f"csgo_tmp/{frameIndex}.png")
-    fig.savefig(image_files[-1], dpi=300, bbox_inches="tight")
-    plt.close()
-    images = []
-    for file in image_files:
-        images.append(imageio.imread(file))
-    imageio.mimsave(filename, images, fps=fps)
-    shutil.rmtree("csgo_tmp/")
     return fig
