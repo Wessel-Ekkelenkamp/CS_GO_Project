@@ -120,12 +120,10 @@ def plot_game_deaths_overlay(
     return True
 
 def plot_game_deaths_overlay_last_frame(
-    filename: str,
     rounds: list[GameRound],
     map_name: str = "de_ancient",
     map_type: str = "original",
     dark: bool = False,
-    fps: int = 10,
 ) -> Literal[True]:
     framesLeft = True
     frameIndex = 0
