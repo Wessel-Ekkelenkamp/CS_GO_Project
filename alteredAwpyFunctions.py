@@ -7,6 +7,7 @@ from awpy.visualization.plot import plot_positions
 from tqdm import tqdm
 import imageio
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 def plot_round_deaths(
     filename: str,
@@ -47,6 +48,29 @@ def plot_round_deaths(
             map_name=map_name,
             map_type=map_type,
             dark=dark,
+        )
+        _.legend(
+            handles=[
+                mpl.lines.Line2D(
+                    [],
+                    [],
+                    color="cyan",
+                    marker="x",
+                    linestyle="None",
+                    label="CT Deaths",
+                ),
+                mpl.lines.Line2D(
+                    [],
+                    [],
+                    color="red",
+                    marker="x",
+                    linestyle="None",
+                    label="T Deaths",
+                ),
+            ],
+            loc="upper right",
+            bbox_to_anchor=(1, 1),
+            bbox_transform=_.transAxes,
         )
         image_files.append(f"csgo_tmp/{i}.png")
         fig.savefig(image_files[-1], dpi=300, bbox_inches="tight")
@@ -165,6 +189,37 @@ def plot_game_deaths_overlay_last_frame(
         map_name=map_name,
         map_type=map_type,
         dark=dark,
+    )
+    _.legend(
+        handles=[
+            mpl.lines.Line2D(
+                [],
+                [],
+                color="cyan",
+                marker="x",
+                linestyle="None",
+                label="CT Deaths",
+            ),
+            mpl.lines.Line2D(
+                [],
+                [],
+                color="yellow",
+                marker="x",
+                linestyle="None",
+                label="T Deaths",
+            ),
+            mpl.lines.Line2D(
+                [],
+                [],
+                color="red",
+                marker="x",
+                linestyle="None",
+                label="Enemy Deaths",
+            ),
+        ],
+        loc="upper right",
+        bbox_to_anchor=(1, 1),
+        bbox_transform=_.transAxes,
     )
     if fileName:
         fig.savefig(fileName, dpi=300, bbox_inches="tight")
