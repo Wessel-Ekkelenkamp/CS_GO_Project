@@ -86,6 +86,7 @@ def plot_game_deaths_overlay(
     filename: str,
     rounds: list[GameRound],
     map_name: str = "de_ancient",
+    team: str = None,
     map_type: str = "original",
     dark: bool = False,
     fps: int = 10,
@@ -100,7 +101,6 @@ def plot_game_deaths_overlay(
     positions = []
     colors = []
     markers = []
-    print(max(len(r["frames"]) for r in rounds))
     while framesLeft:
         framesLeft = False
         for i, r in tqdm(enumerate(rounds)):
@@ -114,10 +114,12 @@ def plot_game_deaths_overlay(
                 for p in f[side]["players"] or []:
                     if p["hp"] > 0:
                         continue
-                    if side == "ct":
+                    if team and r[side + "Team"] != team:
+                        colors.append("red")
+                    elif side == "ct":
                         colors.append("cyan")
                     else:
-                        colors.append("red")
+                        colors.append("yellow")
                     markers.append("x")
                     pos = (
                         position_transform(map_name, p["x"], "x"),
@@ -132,6 +134,37 @@ def plot_game_deaths_overlay(
             map_name=map_name,
             map_type=map_type,
             dark=dark,
+        )
+        _.legend(
+            handles=[
+                mpl.lines.Line2D(
+                    [],
+                    [],
+                    color="cyan",
+                    marker="x",
+                    linestyle="None",
+                    label="CT Deaths",
+                ),
+                mpl.lines.Line2D(
+                    [],
+                    [],
+                    color="yellow",
+                    marker="x",
+                    linestyle="None",
+                    label="T Deaths",
+                ),
+                mpl.lines.Line2D(
+                    [],
+                    [],
+                    color="red",
+                    marker="x",
+                    linestyle="None",
+                    label="Enemy Deaths",
+                ),
+            ],
+            loc="upper right",
+            bbox_to_anchor=(1, 1),
+            bbox_transform=_.transAxes,
         )
         image_files.append(f"csgo_tmp/{frameIndex}.png")
         fig.savefig(image_files[-1], dpi=300, bbox_inches="tight")
