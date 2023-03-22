@@ -122,6 +122,7 @@ def plot_game_deaths_overlay(
 def plot_game_deaths_overlay_last_frame(
     rounds: list[GameRound],
     map_name: str = "de_ancient",
+    team: str = None,
     map_type: str = "original",
     dark: bool = False,
 ) -> Literal[True]:
@@ -143,10 +144,12 @@ def plot_game_deaths_overlay_last_frame(
                 for p in f[side]["players"] or []:
                     if p["hp"] > 0:
                         continue
-                    if side == "ct":
+                    if team and r[side + "Team"] != team:
+                        colors.append("red")
+                    elif side == "ct":
                         colors.append("cyan")
                     else:
-                        colors.append("red")
+                        colors.append("yellow")
                     markers.append("x")
                     pos = (
                         position_transform(map_name, p["x"], "x"),
